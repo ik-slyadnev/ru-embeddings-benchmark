@@ -1,4 +1,10 @@
-# Какая embedding-модель лучше ищет код по вопросам на русском
+# Ru Embeddings Benchmark: поиск кода по вопросам на русском
+
+Сравнение 63 конфигураций embedding-моделей и BM25 для семантического поиска кода и RAG: 2454 вопроса на русском к пяти проектам на C#, Go, Java, Python и TypeScript
+
+Russian code search benchmark: 63 embedding model configurations plus a BM25 baseline, 2,454 Russian-language queries, five programming languages. Results include MRR@10, Recall@k and nDCG@10; the repository contains a leaderboard, evaluation methodology and labeled JSONL datasets.
+
+[Рейтинг](#рейтинг) · [Методика](METHODOLOGY.md) · [Датасет](data) · [CSV](results/leaderboard.csv) · [Подробный отчёт](results/report.md) · [Reranker benchmark](https://github.com/ik-slyadnev/ru-reranker-benchmark)
 
 Я хотел понять, какую открытую embedding-модель брать для RAG по коду, если вопросы задают на русском.
 
@@ -155,7 +161,7 @@
 | Hybrid search: вектор и BM25 | вопросы «где используется» плюс 0.14–0.19, обычные вопросы сильно хуже | гибрид стоит включать только для вопросов об использовании |
 | ANN-индекс IVF_HNSW_PQ в LanceDB с nprobes 24 и refine_factor 8 | по качеству не отличается от точного поиска | с этими параметрами индекс можно смело использовать |
 | Вопросы-перечни вроде «напиши все классы безопасности и работы с БД» | в 30 chunks попадает 8–14% нужных файлов, в 90 chunks 26–32%, карточки файлов после фильтра по словарю API покрывают 92% | vector search тут не подходит, нужен каталог файлов |
-| 23 reranker'а поверх Giga-3B, [отдельный бенчмарк](https://gitverse.ru/nogamenolife/ru-reranker-benchmark) | Qwen3-Reranker-4B поднимает обычные вопросы с 0.845 до 0.912, zerank-2 лучше всех на «где используется»: с 0.436 до 0.669, а поверх hybrid search до 0.701. 13 моделей из 23 на обычных вопросах выдачу ухудшают | reranker стоит ставить, но только проверенный на своих данных |
+| 23 reranker'а поверх Giga-3B, [отдельный бенчмарк](https://github.com/ik-slyadnev/ru-reranker-benchmark) | Qwen3-Reranker-4B поднимает обычные вопросы с 0.845 до 0.912, zerank-2 лучше всех на «где используется»: с 0.436 до 0.669, а поверх hybrid search до 0.701. 13 моделей из 23 на обычных вопросах выдачу ухудшают | reranker стоит ставить, но только проверенный на своих данных |
 
 ## Как я мерил
 
